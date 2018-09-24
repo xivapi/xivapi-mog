@@ -54,23 +54,26 @@ class ListCommitChangesCommand extends Command
         $commits = json_decode($commits->getContent())->values;
 
         $list = [];
-        foreach ($commits as $commit) {
+        foreach ($commits as $i => $commit) {
             $message = trim($commit->summary->raw);
 
             $list[] = "- {$message}\n";
 
             // break if we're up to date on our local hash, end
-            if ($commit->hash == $xivapiLocal->hash) {
+            if ($commit->hash == $xivapiLocal->hash || $i >= 10) {
                 break;
             }
         }
 
-        $date = (new Carbon($commits[0]->date))->fromNow();
         $embed = new Embed(
-            "Code Changes:  {$xivapiLocal->version} → {$xivapiRemote->version}    ({$date})",
+            "Code Changes:  {$xivapiLocal->version} → {$xivapiRemote->version}",
             '9c5bf7',
-            implode($list)
+            implode($list),
+            null,
+            "Updated: ". (new Carbon($commits[0]->date))->format('D jS F, Y - g:i a')
         );
+
+        print_r($embed->getCliEmbed());
 
         // post to #git-alerts channel
         $this->mogRest->message("474519301865340938", $embed);

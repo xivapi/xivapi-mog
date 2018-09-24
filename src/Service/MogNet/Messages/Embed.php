@@ -13,6 +13,7 @@ class Embed
     public $color;
     public $description;
     public $fields;
+    public $footer;
     public $thumbnail;
     public $image;
     public $url;
@@ -25,6 +26,7 @@ class Embed
         $hexColour = null,
         $description = null,
         $fields = null,
+        $footer = null,
         $thumbnail = null,
         $image = null,
         $url = null,
@@ -35,6 +37,7 @@ class Embed
         $this->color = $hexColour;
         $this->description = $description;
         $this->fields = $fields;
+        $this->footer = $footer;
         $this->thumbnail = $thumbnail;
         $this->image = $image;
         $this->url = $url;
@@ -58,6 +61,9 @@ class Embed
             'description'   => $this->description,
             'url'           => $this->url,
             'color'         => hexdec($this->color),
+            'footer'        => [
+                'text' => $this->footer,
+            ],
         ];
 
         if ($this->fields) {
@@ -86,6 +92,10 @@ class Embed
             ->setTitle($this->title)
             ->setColor(hexdec($this->color))
             ->setDescription($this->description);
+
+        if ($this->footer) {
+            $embed->setFooter($this->footer);
+        }
 
         if ($this->url) {
             $embed->setURL($this->url);
