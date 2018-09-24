@@ -19,7 +19,7 @@ class MogRest extends Tron
         $discord = new DiscordClient(['token' => getenv('BOT_TOKEN')]);
 
         $options = [
-            'channel.id' => $channelId,
+            'channel.id' => (int)$channelId,
         ];
 
         // handle options if the message is an embed

@@ -5,12 +5,11 @@ namespace App\Controller;
 use App\Service\MogNet\Messages\Text;
 use App\Service\MogNet\MogRest;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 class MessageController extends Controller
 {
-    const CHANNEL_ID = 293864457082241026;
-    
     /** @var MogRest */
     private $bot;
     
@@ -29,7 +28,7 @@ class MessageController extends Controller
         $message = new Text($post->message);
     
         // post it to the chat
-        $this->bot->message(self::CHANNEL_ID, $message);
+        $this->bot->message(getenv('BOT_CHANNEL'), $message);
         return $this->json(true);
     }
 }

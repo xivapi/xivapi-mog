@@ -64,12 +64,11 @@ class Embed
             $embed['fields'] = [];
 
             // loop through fields
-            foreach ($this->fields as $i => $value) {
-                $name = "Data #". ($i+1);
+            foreach ($this->fields as $field) {
                 $embed['fields'][] = [
-                    'name'  => $name,
-                    'value' => $value,
-                    'inline' => true,
+                    'name'   => $field->name,
+                    'value'  => $field->value,
+                    'inline' => $field->inline,
                 ];
             }
         }
