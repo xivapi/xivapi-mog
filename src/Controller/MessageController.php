@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\Service\MogNet\Messages\Text;
 use App\Service\MogNet\MogRest;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
-class MessageController extends Controller
+class MessageController extends AbstractController
 {
-    const CHANNEL_ID = 293864457082241026;
+    const CHANNEL_ID = 477631558317244427;
     
     /** @var MogRest */
     private $bot;
@@ -20,13 +21,20 @@ class MessageController extends Controller
     }
     
     /**
-     * @Route("/mog/message/post", methods="POST")
+     * @Route("/")
+     */
+    public function home()
+    {
+        return $this->json('Mog, XIVAPI/.com Discord Bot');
+    }
+    
+    /**
+     * @Route("/say")
      */
     public function post(Request $request)
     {
         // grab feedback json
-        $post = json_decode($request->getContent());
-        $message = new Text($post->message);
+        $message = new Text(trim($request->get('message')));
     
         // post it to the chat
         $this->bot->message(self::CHANNEL_ID, $message);
