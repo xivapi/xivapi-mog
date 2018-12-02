@@ -37,7 +37,7 @@ class MessageController extends AbstractController
         $message = new Text(trim($request->get('message')));
     
         // post it to the chat
-        $this->bot->message(self::CHANNEL_ID, $message);
+        $this->bot->message(getenv('BOT_CHANNEL'), $message);
         return $this->json(true);
     }
 }
