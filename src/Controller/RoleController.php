@@ -23,6 +23,24 @@ class RoleController extends AbstractController
      */
     public function post(Request $request)
     {
+        return $this->json([
+            [
+                [
+                    [
+                        [
+                            [
+                                [
+                                    [
+                                        ['kill joy']
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]);
+
         $name = strip_tags(trim(substr($request->get('name'), 0, 64)));
 
         if (strtolower($name) == 'example') {
