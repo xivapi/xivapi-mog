@@ -23,17 +23,19 @@ class RoleController extends AbstractController
      */
     public function post(Request $request)
     {
+        $name = strip_tags(trim(substr($request->get('name'), 0, 64)));
+
         $this->mog->client()->guild->modifyGuildRole([
             'guild.id'    => 474518001173921794,
             'role.id'     => 516086224738451466,
-            'name'        => trim(substr($request->get('name'), 0, 64)),
+            'name'        => $name,
             'mentionable' => true,
             'hoist'       => true,
         ]);
 
         $this->mog->client()->channel->createMessage([
             'channel.id'  => 474519195963490305,
-            'content'     => '<@&516086224738451466> Your role was set by some randomer on the internet',
+            'content'     => '<@&516086224738451466> Your role was set by some randomer on the internet to: '. $name,
         ]);
     }
 }
