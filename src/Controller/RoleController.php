@@ -37,5 +37,7 @@ class RoleController extends AbstractController
             'channel.id'  => 474519195963490305,
             'content'     => '<@&516086224738451466> Your role was set by some randomer on the internet to: '. $name,
         ]);
+
+        return $this->json(1);
     }
 }
