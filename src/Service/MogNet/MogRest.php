@@ -11,13 +11,16 @@ use App\Service\MogNet\Messages\{Embed,Reply,Text};
  */
 class MogRest extends Tron
 {
+    public function client(): DiscordClient
+    {
+        return new DiscordClient(['token' => getenv('BOT_TOKEN')]);
+    }
+
     /**
      * Send a message to a room
      */
     public function message($channelId, $message)
     {
-        $discord = new DiscordClient(['token' => getenv('BOT_TOKEN')]);
-
         $options = [
             'channel.id' => (int)$channelId,
         ];
@@ -35,6 +38,6 @@ class MogRest extends Tron
         }
 
         // send message
-        $discord->channel->createMessage($options);
+        $this->client()->channel->createMessage($options);
     }
 }
