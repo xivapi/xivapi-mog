@@ -10,14 +10,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MessageController extends AbstractController
 {
-    const CHANNEL_ID = 477631558317244427;
-    
     /** @var MogRest */
-    private $bot;
+    private $mog;
     
-    public function __construct(MogRest $bot)
+    public function __construct(MogRest $mog)
     {
-        $this->bot = $bot;
+        $this->mog = $mog;
     }
     
     /**
@@ -37,7 +35,7 @@ class MessageController extends AbstractController
         $message = new Text(trim($request->get('message')));
     
         // post it to the chat
-        $this->bot->message(getenv('BOT_CHANNEL'), $message);
+        $this->mog->message(477631558317244427, $message);
         return $this->json(true);
     }
 }
