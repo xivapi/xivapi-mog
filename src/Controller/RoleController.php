@@ -25,6 +25,10 @@ class RoleController extends AbstractController
     {
         $name = strip_tags(trim(substr($request->get('name'), 0, 64)));
 
+        if (strtolower($name) == 'example') {
+            return $this->json(0);
+        }
+
         $this->mog->client()->guild->modifyGuildRole([
             'guild.id'    => 474518001173921794,
             'role.id'     => 516086224738451466,
