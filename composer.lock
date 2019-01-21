@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "cakephp/core",
-            "version": "3.7.0",
+            "version": "3.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/core.git",
-                "reference": "ae0fd1dd3bdf2eb1cb0c291a0573dc898d9ce6d6"
+                "reference": "02b4d6579246d7011e5062058c50c041ab542fa9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/core/zipball/ae0fd1dd3bdf2eb1cb0c291a0573dc898d9ce6d6",
-                "reference": "ae0fd1dd3bdf2eb1cb0c291a0573dc898d9ce6d6",
+                "url": "https://api.github.com/repos/cakephp/core/zipball/02b4d6579246d7011e5062058c50c041ab542fa9",
+                "reference": "02b4d6579246d7011e5062058c50c041ab542fa9",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
                 "core",
                 "framework"
             ],
-            "time": "2018-11-13T02:29:05+00:00"
+            "time": "2018-12-13T23:20:56+00:00"
         },
         {
             "name": "cakephp/utility",
@@ -2016,16 +2016,16 @@
         },
         {
             "name": "ratchet/pawl",
-            "version": "v0.3.2",
+            "version": "v0.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ratchetphp/Pawl.git",
-                "reference": "85ca3b4a85254cf2ac4309ef42d427820770ae31"
+                "reference": "0aaacb8d3f6bcc02138bb8385130f757ecce5649"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ratchetphp/Pawl/zipball/85ca3b4a85254cf2ac4309ef42d427820770ae31",
-                "reference": "85ca3b4a85254cf2ac4309ef42d427820770ae31",
+                "url": "https://api.github.com/repos/ratchetphp/Pawl/zipball/0aaacb8d3f6bcc02138bb8385130f757ecce5649",
+                "reference": "0aaacb8d3f6bcc02138bb8385130f757ecce5649",
                 "shasum": ""
             },
             "require": {
@@ -2061,7 +2061,7 @@
                 "websocket",
                 "websocket client"
             ],
-            "time": "2018-05-22T21:45:08+00:00"
+            "time": "2019-01-01T19:05:59+00:00"
         },
         {
             "name": "ratchet/rfc6455",
@@ -2541,16 +2541,16 @@
         },
         {
             "name": "react/stream",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/stream.git",
-                "reference": "fdd0140f42805d65bf9687636503db0b326d2244"
+                "reference": "50426855f7a77ddf43b9266c22320df5bf6c6ce6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/stream/zipball/fdd0140f42805d65bf9687636503db0b326d2244",
-                "reference": "fdd0140f42805d65bf9687636503db0b326d2244",
+                "url": "https://api.github.com/repos/reactphp/stream/zipball/50426855f7a77ddf43b9266c22320df5bf6c6ce6",
+                "reference": "50426855f7a77ddf43b9266c22320df5bf6c6ce6",
                 "shasum": ""
             },
             "require": {
@@ -2583,7 +2583,7 @@
                 "stream",
                 "writable"
             ],
-            "time": "2018-07-11T14:38:16+00:00"
+            "time": "2019-01-01T16:15:09+00:00"
         },
         {
             "name": "restcord/restcord",
@@ -4502,26 +4502,24 @@
         },
         {
             "name": "wyrihaximus/json-utilities",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WyriHaximus/php-json-utilities.git",
-                "reference": "c8ed221dfba974c4ae190dc687382a5eb0b60cc5"
+                "reference": "f0f5007df750f8e44c8ba8ce9ee8e701472ea4c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WyriHaximus/php-json-utilities/zipball/c8ed221dfba974c4ae190dc687382a5eb0b60cc5",
-                "reference": "c8ed221dfba974c4ae190dc687382a5eb0b60cc5",
+                "url": "https://api.github.com/repos/WyriHaximus/php-json-utilities/zipball/f0f5007df750f8e44c8ba8ce9ee8e701472ea4c7",
+                "reference": "f0f5007df750f8e44c8ba8ce9ee8e701472ea4c7",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0"
+                "php": "^7.2"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.2",
-                "jakub-onderka/php-console-highlighter": "^0.3.2",
-                "jakub-onderka/php-parallel-lint": "^0.9.2",
-                "phpunit/phpunit": "^4.8.35 || ^5.0 || ^6.0"
+                "api-clients/cs-fixer-config": "^1.1",
+                "api-clients/test-utilities": "^5.2"
             },
             "type": "library",
             "autoload": {
@@ -4543,7 +4541,7 @@
                 }
             ],
             "description": "Utilities for php-json-* packages",
-            "time": "2018-03-03T23:07:12+00:00"
+            "time": "2018-12-25T10:58:17+00:00"
         },
         {
             "name": "wyrihaximus/react-child-process-messenger",

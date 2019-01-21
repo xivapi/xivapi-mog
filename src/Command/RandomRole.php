@@ -31,7 +31,7 @@ class RandomRole extends Command
         $this->mog->client()->guild->modifyGuildRole([
             'guild.id'    => 474518001173921794,
             'role.id'     => 516086224738451466,
-            'name'        => 'test',
+            'name'        => 'TheVeryBest',
             'mentionable' => true,
             'hoist'       => true,
         ]);

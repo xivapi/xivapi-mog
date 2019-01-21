@@ -31,11 +31,23 @@ class MessageController extends AbstractController
      */
     public function post(Request $request)
     {
+        $message = trim($request->get('message'));
+        
+        if (empty($message)) {
+            return $this->json([
+                false,
+                'No message provided'
+            ]);
+        }
+        
         // grab feedback json
-        $message = new Text(trim($request->get('message')));
+        $message = new Text($message);
     
         // post it to the chat
         $this->mog->message(477631558317244427, $message);
-        return $this->json(true);
+        return $this->json([
+            true,
+            'Message sent successfully'
+        ]);
     }
 }
