@@ -6,6 +6,7 @@ use App\Service\MogNet\Messages\Text;
 use App\Service\MogNet\MogRest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MessageController extends AbstractController
@@ -23,7 +24,7 @@ class MessageController extends AbstractController
      */
     public function home()
     {
-        return $this->json('Mog, XIVAPI/.com Discord Bot');
+        return $this->json('Mog, The XIVAPI.com Discord Bot');
     }
     
     /**
@@ -31,23 +32,28 @@ class MessageController extends AbstractController
      */
     public function post(Request $request)
     {
-        $message = trim($request->get('message'));
-        
-        if (empty($message)) {
-            return $this->json([
-                false,
-                'No message provided'
-            ]);
+        if ($request->get('key') != getenv('BOT_USAGE_KEY')) {
+            throw new NotFoundHttpException();
         }
-        
+
+        $request = \GuzzleHttp\json_decode($request->getContent());
+
+        if (!isset($request->message)) {
+            throw new NotFoundHttpException();
+        }
+
+        $message = trim($request->message);
+
+        if (empty($message)) {
+            return $this->json([ false, 'No message provided' ]);
+        }
+
         // grab feedback json
         $message = new Text($message);
-    
+        $room    = $request->room ?? 477631558317244427;
+
         // post it to the chat
-        $this->mog->message(477631558317244427, $message);
-        return $this->json([
-            true,
-            'Message sent successfully'
-        ]);
+        $this->mog->message($room, $message);
+        return $this->json([ true, 'Message sent successfully' ]);
     }
 }

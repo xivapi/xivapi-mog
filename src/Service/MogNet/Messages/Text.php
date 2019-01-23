@@ -13,7 +13,7 @@ class Text
 
     public function __construct($content = null, $isPrivate = false)
     {
-        $this->content = $content;
+        $this->content = trim($content);
         $this->isPrivate = $isPrivate;
     }
 }
