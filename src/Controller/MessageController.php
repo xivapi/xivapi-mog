@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\Directory\Rooms;
 use App\Service\MogNet\Messages\Text;
 use App\Service\MogNet\MogRest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -50,7 +51,7 @@ class MessageController extends AbstractController
 
         // grab feedback json
         $message = new Text($message);
-        $room    = $request->room ?? 477631558317244427;
+        $room    = isset($request->room) ? Rooms::get($request->room) : Rooms::ADMIN_MOG;
 
         // post it to the chat
         $this->mog->message($room, $message);
