@@ -27,10 +27,10 @@ class Embed
         $description = null,
         $fields = null,
         $footer = null,
-        $thumbnail = null,
-        $image = null,
+        Image $thumbnail = null,
+        Image $image = null,
         $url = null,
-        $author = null,
+        Author $author = null,
         $isPrivate = false
     ) {
         $this->title = $title;
@@ -66,10 +66,30 @@ class Embed
             ],
         ];
 
+        if ($this->thumbnail) {
+            $embed['thumbnail'] = [
+                'url' => $this->thumbnail->url
+            ];
+        }
+
+        if ($this->image) {
+            $embed['image'] = [
+                'url' => $this->image->url
+            ];
+        }
+
+        if ($this->author) {
+            $embed['author'] = [
+                'name' => $this->author->name,
+                'icon_url' => $this->author->iconUrl,
+            ];
+        }
+
         if ($this->fields) {
             $embed['fields'] = [];
 
             // loop through fields
+            /** @var Field $field */
             foreach ($this->fields as $field) {
                 $embed['fields'][] = [
                     'name'   => $field->name,
@@ -102,11 +122,11 @@ class Embed
         }
 
         if ($this->thumbnail) {
-            $embed->setThumbnail($this->thumbnail);
+            $embed->setThumbnail($this->thumbnail->url);
         }
 
         if ($this->image) {
-            $embed->setImage($this->image);
+            $embed->setImage($this->image->url);
         }
 
         if ($this->author) {

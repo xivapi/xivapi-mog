@@ -11,7 +11,7 @@ use App\Service\MogNet\Messages\{Embed,Reply,Text};
  */
 class MogRest extends Tron
 {
-    public function client(): DiscordClient
+    public function discord(): DiscordClient
     {
         return new DiscordClient(['token' => getenv('BOT_TOKEN')]);
     }
@@ -25,6 +25,36 @@ class MogRest extends Tron
             'channel.id' => (int)$channelId,
         ];
 
+        $options = array_merge($options, $this->handleMessage($message));
+
+        // send message
+        $this->discord()->channel->createMessage($options);
+    }
+
+    public function dm($userId, $message)
+    {
+        // create dm
+        $dm = $this->discord()->user->createDm([
+            'recipient_id' => (int)$userId,
+        ]);
+
+        $options = [
+            'channel.id' => (int)$dm->id
+        ];
+
+        $options = array_merge($options, $this->handleMessage($message));
+
+        // send message
+        $this->discord()->channel->createMessage($options);
+    }
+
+    /**
+     * Handles a message and returns the correct options
+     */
+    private function handleMessage($message)
+    {
+        $options = [];
+
         // handle options if the message is an embed
         if (get_class($message) === Embed::class) {
             /** @var Embed $message */
@@ -37,7 +67,6 @@ class MogRest extends Tron
             $options['content'] = $message->content;
         }
 
-        // send message
-        $this->client()->channel->createMessage($options);
+        return $options;
     }
 }
