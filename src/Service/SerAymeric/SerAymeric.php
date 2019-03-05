@@ -14,10 +14,9 @@ class SerAymeric
             'verify'   => false,
         ]);
 
-        $client->get(getenv('SA_ENDPOINT') . $userId, [
+        $client->post(getenv('SA_ENDPOINT') . $userId, [
             RequestOptions::HEADERS  => [
                 'Authorization' => getenv('SA_AUTH'),
-                'Content-Type'  => 'application/json',
             ],
             RequestOptions::JSON => [
                 'content' => $message,
