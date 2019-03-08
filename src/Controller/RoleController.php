@@ -2,9 +2,8 @@
 
 namespace App\Controller;
 
-use App\Service\MogNet\MogRest;
+use App\Service\MogRest\MogRest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RoleController extends AbstractController
@@ -17,49 +16,5 @@ class RoleController extends AbstractController
     public function __construct(MogRest $mog)
     {
         $this->mog = $mog;
-    }
-    /**
-     * @Route("/role/ArcaneDisgea")
-     */
-    public function post(Request $request)
-    {
-        return $this->json([
-            [
-                [
-                    [
-                        [
-                            [
-                                [
-                                    [
-                                        ['kill joy']
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ]);
-
-        $name = strip_tags(trim(substr($request->get('name'), 0, 64)));
-
-        if (strtolower($name) == 'example') {
-            return $this->json(0);
-        }
-
-        $this->mog->client()->guild->modifyGuildRole([
-            'guild.id'    => 474518001173921794,
-            'role.id'     => 516086224738451466,
-            'name'        => $name,
-            'mentionable' => true,
-            'hoist'       => true,
-        ]);
-
-        $this->mog->client()->channel->createMessage([
-            'channel.id'  => 474519195963490305,
-            'content'     => '<@&516086224738451466> Your role was set by some randomer on the internet to: '. $name,
-        ]);
-
-        return $this->json(1);
     }
 }

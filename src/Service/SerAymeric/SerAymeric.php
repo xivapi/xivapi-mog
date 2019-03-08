@@ -7,7 +7,10 @@ use GuzzleHttp\RequestOptions;
 
 class SerAymeric
 {
-    public function sendMessage(string $userId, string $message)
+    /**
+     * Send a direct message to a user via Ser Aymeric
+     */
+    public function sendDirectMessage(int $userId, string $message)
     {
         $client = new Client([
             'base_uri' => getenv('SA_BASE_URI'),

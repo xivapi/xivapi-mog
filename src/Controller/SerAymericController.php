@@ -2,35 +2,33 @@
 
 namespace App\Controller;
 
+use App\Service\Api\Response;
+use App\Service\SerAymeric\SerAymeric;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SerAymericController extends AbstractController
 {
+    /** @var SerAymeric */
+    private $serAymeric;
+
+    public function __construct(SerAymeric $serAymeric)
+    {
+        $this->serAymeric = $serAymeric;
+    }
+
     /**
-     * @Route("/say")
+     * @Route("/ser-aymeric/say")
      */
     public function post(Request $request)
     {
-        if ($request->get('key') != getenv('BOT_USAGE_KEY')) {
-            throw new NotFoundHttpException();
-        }
+        $content = json_decode($request->getContent());
 
-        $request = \GuzzleHttp\json_decode($request->getContent());
+        $this->serAymeric->sendDirectMessage(42667995159330816, $content->message);
 
-        if (!isset($request->message)) {
-            throw new NotFoundHttpException();
-        }
-
-        $message = trim($request->message);
-
-        if (empty($message)) {
-            return $this->json([ false, 'No message provided' ]);
-        }
-
-
-
+        return $this->json(
+            (new Response(true, 'Message Sent'))->toArray()
+        );
     }
 }

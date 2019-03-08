@@ -13,6 +13,10 @@ class Text
 
     public function __construct($content = null, $isPrivate = false)
     {
+        if (empty($content)) {
+            throw new \Exception('Empty message provided to Text($content)');
+        }
+
         $this->content = trim($content);
         $this->isPrivate = $isPrivate;
     }

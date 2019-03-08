@@ -10,11 +10,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 class RunCommand extends Command
 {
     /** @var MogNet */
-    private $mogNet;
+    private $mog;
 
-    public function __construct(MogNet $mogNet)
+    public function __construct(MogNet $mog)
     {
-        $this->mogNet = $mogNet;
+        $this->mog = $mog;
         parent::__construct();
     }
 
@@ -28,6 +28,6 @@ class RunCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln('<info>Mog Discord Bot</info>');
-        $this->mogNet->run();
+        $this->mog->run();
     }
 }

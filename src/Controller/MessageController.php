@@ -2,16 +2,17 @@
 
 namespace App\Controller;
 
-use App\Service\Directory\Rooms;
+use App\Service\Api\Response;
 use App\Service\MogNet\Messages\Text;
-use App\Service\MogNet\MogRest;
+use App\Service\MogRest\MogRest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MessageController extends AbstractController
 {
+    use ControllerTrait;
+
     /** @var MogRest */
     private $mog;
     
@@ -19,42 +20,25 @@ class MessageController extends AbstractController
     {
         $this->mog = $mog;
     }
-    
-    /**
-     * @Route("/")
-     */
-    public function home()
-    {
-        return $this->json('Mog, The XIVAPI.com Discord Bot');
-    }
-    
+
     /**
      * @Route("/say")
      */
-    public function post(Request $request)
+    public function say(Request $request)
     {
-        if ($request->get('key') != getenv('BOT_USAGE_KEY')) {
-            throw new NotFoundHttpException();
-        }
+        $content = json_decode($request->getContent());
 
-        $request = \GuzzleHttp\json_decode($request->getContent());
-
-        if (!isset($request->message)) {
-            throw new NotFoundHttpException();
-        }
-
-        $message = trim($request->message);
-
-        if (empty($message)) {
-            return $this->json([ false, 'No message provided' ]);
-        }
+        // grab the discord channel from the request
+        $channel = $this->getChannelFromRequestContent($content);
 
         // grab feedback json
-        $message = new Text($message);
-        $room    = isset($request->room) ? Rooms::get($request->room) : Rooms::ADMIN_MOG;
+        $message = new Text($content->message ?? false);
 
         // post it to the chat
-        $this->mog->message($room, $message);
-        return $this->json([ true, 'Message sent successfully' ]);
+        $this->mog->sendMessage($channel, $message);
+
+        return $this->json(
+            (new Response(true, 'Message Sent'))->toArray()
+        );
     }
 }
