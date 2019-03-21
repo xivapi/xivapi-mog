@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Service\MogNet\Messages\Text;
+use App\Service\SerAymeric\SerAymeric;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -9,8 +11,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SerAymericController extends AbstractController
 {
+    /** @var SerAymeric */
+    private $serAymeric;
+    
+    public function __construct(SerAymeric $serAymeric)
+    {
+        $this->serAymeric = $serAymeric;
+    }
+    
     /**
-     * @Route("/say")
+     * @Route("/aymeric/say")
      */
     public function post(Request $request)
     {
@@ -25,12 +35,16 @@ class SerAymericController extends AbstractController
         }
 
         $message = trim($request->message);
+        $userId  = trim($request->user_id);
 
         if (empty($message)) {
             return $this->json([ false, 'No message provided' ]);
         }
-
-
-
+    
+        $message = new Text($message);
+        
+        $this->serAymeric->sendMessage($userId, $message->content);
+        
+        return $this->json([ true, 'Message sent ']);
     }
 }
