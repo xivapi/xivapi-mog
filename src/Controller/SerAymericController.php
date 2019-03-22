@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Service\Api\Response;
+use App\Service\MogNet\Messages\Text;
 use App\Service\SerAymeric\SerAymeric;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,23 +12,29 @@ class SerAymericController extends AbstractController
 {
     /** @var SerAymeric */
     private $serAymeric;
-
+    
     public function __construct(SerAymeric $serAymeric)
     {
         $this->serAymeric = $serAymeric;
     }
-
+    
     /**
-     * @Route("/ser-aymeric/say")
+     * @Route("/aymeric/say")
      */
     public function post(Request $request)
     {
         $content = json_decode($request->getContent());
+        $message = trim($content->message);
+        $userId  = trim($content->user_id);
 
-        $this->serAymeric->sendDirectMessage(42667995159330816, $content->message);
-
-        return $this->json(
-            (new Response(true, 'Message Sent'))->toArray()
-        );
+        if (empty($message)) {
+            return $this->json([ false, 'No message provided' ]);
+        }
+    
+        $message = new Text($message);
+        
+        $this->serAymeric->sendDirectMessage($userId, $message->content);
+        
+        return $this->json([ true, 'Message sent ']);
     }
 }

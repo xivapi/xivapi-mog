@@ -11,8 +11,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MessageController extends AbstractController
 {
-    use ControllerTrait;
-
     /** @var MogRest */
     private $mog;
     
@@ -29,7 +27,11 @@ class MessageController extends AbstractController
         $content = json_decode($request->getContent());
 
         // grab the discord channel from the request
-        $channel = $this->getChannelFromRequestContent($content);
+        $channel = $content->channel ?? null;
+
+        if ($channel === null) {
+            throw new \Exception('A channel must be provided in the request.');
+        }
 
         // grab feedback json
         $message = new Text($content->message ?? false);

@@ -17,7 +17,7 @@ class Text
             throw new \Exception('Empty message provided to Text($content)');
         }
 
-        $this->content = trim($content);
+        $this->content   = trim($content);
         $this->isPrivate = $isPrivate;
     }
 }
