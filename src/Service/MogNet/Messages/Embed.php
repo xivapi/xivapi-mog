@@ -22,9 +22,9 @@ class Embed
     public $isPrivate = false;
 
     public function __construct(
-        $title = null,
-        $hexColour = null,
-        $description = null,
+        $title,
+        $hexColour,
+        $description,
         $fields = null,
         $footer = null,
         Image $thumbnail = null,
@@ -46,12 +46,10 @@ class Embed
     }
 
     /**
-     * todo - add footer support
      * todo - add image support
      * todo - add thumbnail support
      * todo - add video support
      * todo - add provider support
-     * todo - add author support
      */
     public function getRestEmbed(): array
     {
@@ -97,6 +95,12 @@ class Embed
                     'inline' => $field->inline,
                 ];
             }
+        }
+
+        if ($this->footer) {
+            $embed['footer'] = [
+                'name' => $this->footer,
+            ];
         }
 
         return $embed;
