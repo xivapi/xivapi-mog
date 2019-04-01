@@ -92,14 +92,14 @@ class Embed
                 $embed['fields'][] = [
                     'name'   => $field->name,
                     'value'  => $field->value,
-                    'inline' => $field->inline,
+                    'inline' => $field->inline ?? false,
                 ];
             }
         }
 
         if ($this->footer) {
             $embed['footer'] = [
-                'name' => $this->footer,
+                'text' => $this->footer,
             ];
         }
 
