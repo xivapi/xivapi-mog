@@ -54,7 +54,7 @@ class SerAymericController extends AbstractController
         $embed   = $content->embed;
         $userId  = $content->user_id;
 
-        if (empty($message) || empty($userId)) {
+        if (empty($embed) || empty($userId)) {
             return $this->json([ false, 'Invalid submit data.' ]);
         }
 
@@ -72,7 +72,7 @@ class SerAymericController extends AbstractController
 
         $embed = new Embed(
             $embed->title,
-            $embed->hexColour,
+            $embed->color,
             $embed->description,
             $embed->fields ?? null,
             $embed->footer ?? null,
