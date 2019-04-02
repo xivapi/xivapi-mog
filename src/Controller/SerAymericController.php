@@ -35,10 +35,8 @@ class SerAymericController extends AbstractController
         if (empty($message) || empty($userId)) {
             return $this->json([ false, 'Invalid submit data.' ]);
         }
-    
-        $message = new Text($message);
         
-        $this->serAymeric->sendMessage($userId, $message->content);
+        $this->serAymeric->sendMessage($userId, $message);
         
         return $this->json([ true, 'Message sent ']);
     }
@@ -58,31 +56,8 @@ class SerAymericController extends AbstractController
             return $this->json([ false, 'Invalid submit data.' ]);
         }
 
-        if (isset($embed->thumbnail)) {
-            $embed->thumbnail = new Image($embed->thumbnail);
-        }
-
-        if (isset($embed->image)) {
-            $embed->image = new Image($embed->image);
-        }
-
-        if (isset($embed->author)) {
-            $embed->author = new Author($embed->author);
-        }
-
-        $embed = new Embed(
-            $embed->title,
-            $embed->color,
-            $embed->description,
-            $embed->fields ?? null,
-            $embed->footer ?? null,
-            $embed->thumbnail ?? null,
-            $embed->image ?? null,
-            $embed->url ?? null,
-            $embed->author ?? null
-        );
-
-        $this->serAymeric->sendEmbed($userId, $embed->getRestEmbed());
+        // send embed json as is
+        $this->serAymeric->sendEmbed($userId, $embed);
 
         return $this->json([ true, 'Message sent ']);
     }
