@@ -29,7 +29,7 @@ class RequestListener
      */
     private function checkAccessKeyProvided()
     {
-        if ($this->request->get('key') != getenv('BOT_KEY')) {
+        if ($this->request->get('key') != getenv('BOT_USAGE_KEY')) {
             throw new NotFoundHttpException();
         }
     }
