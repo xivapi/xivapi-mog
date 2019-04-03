@@ -26,7 +26,7 @@ class MessageController extends AbstractController
         $message = $content['message'] ?? null;
         $channel = $content['channel'] ?? null;
 
-        if (empty($message) || empty($userId)) {
+        if (empty($message) || empty($channel)) {
             return $this->json([ false, 'Invalid submit data.' ]);
         }
 
@@ -43,7 +43,7 @@ class MessageController extends AbstractController
         $embed   = $content['embed'] ?? null;
         $channel = $content['channel'] ?? null;
 
-        if (empty($embed) || empty($userId)) {
+        if (empty($embed) || empty($channel)) {
             return $this->json([ false, 'Invalid submit data.' ]);
         }
 
