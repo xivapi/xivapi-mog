@@ -25,8 +25,8 @@ class SerAymericController extends AbstractController
     public function message(Request $request)
     {
         $content = json_decode($request->getContent(), true);
-        $message = trim($content['message'] ?? null);
-        $userId  = trim($content['user_id'] ?? null);
+        $message = $content['message'] ?? null;
+        $userId  = $content['user_id'] ?? null;
 
         if (empty($message) || empty($userId)) {
             return $this->json([ false, 'Invalid submit data.' ]);
@@ -51,7 +51,6 @@ class SerAymericController extends AbstractController
             return $this->json([ false, 'Invalid submit data.' ]);
         }
 
-        // send embed json as is
         $this->serAymeric->sendEmbed($userId, $embed);
         return $this->json([ true, 'Message sent ']);
     }

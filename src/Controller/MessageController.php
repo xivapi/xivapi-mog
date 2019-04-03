@@ -23,16 +23,14 @@ class MessageController extends AbstractController
     public function say(Request $request)
     {
         $content = json_decode($request->getContent(), true);
-        $message = trim($content['message'] ?? null);
-        $channel = trim($content['channel'] ?? null);
+        $message = $content['message'] ?? null;
+        $channel = $content['channel'] ?? null;
 
         if (empty($message) || empty($userId)) {
             return $this->json([ false, 'Invalid submit data.' ]);
         }
 
-        // post it to the chat
         $this->mog->sendMessage($channel, $message);
-
         return $this->json([ true, 'Message sent ']);
     }
 
@@ -43,15 +41,13 @@ class MessageController extends AbstractController
     {
         $content = json_decode($request->getContent(), true);
         $embed   = $content['embed'] ?? null;
-        $channel = trim($content['channel'] ?? null);
+        $channel = $content['channel'] ?? null;
 
         if (empty($embed) || empty($userId)) {
             return $this->json([ false, 'Invalid submit data.' ]);
         }
 
-        // post it to the chat
         $this->mog->sendEmbed($channel, $embed);
-
         return $this->json([ true, 'Message sent ']);
     }
 }
