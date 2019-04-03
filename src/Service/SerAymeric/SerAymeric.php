@@ -10,7 +10,7 @@ class SerAymeric
     /**
      * Send a direct message to a user via Ser Aymeric
      */
-    public function send(int $userId, array $json = null)
+    private function send(int $userId, array $json = null)
     {
         $client = new Client([
             'base_uri' => getenv('SA_BASE_URI'),

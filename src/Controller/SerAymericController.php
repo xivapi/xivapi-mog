@@ -18,7 +18,7 @@ class SerAymericController extends AbstractController
     }
     
     /**
-     * Send a content message
+     * Send a message to a specific user
      *
      * @Route("/aymeric/say")
      */
@@ -26,32 +26,15 @@ class SerAymericController extends AbstractController
     {
         $content = json_decode($request->getContent(), true);
         $message = $content['message'] ?? null;
+        $embed   = $content['embed']   ?? null;
         $userId  = $content['user_id'] ?? null;
 
-        if (empty($message) || empty($userId)) {
-            return $this->json([ false, 'Invalid submit data.' ]);
-        }
-        
-        $this->serAymeric->sendMessage($userId, $message);
-        return $this->json([ true, 'Message sent ']);
-    }
-
-    /**
-     * Send an embed message
-     *
-     * @Route("/aymeric/embed")
-     */
-    public function embed(Request $request)
-    {
-        $content = json_decode($request->getContent(), true);
-        $embed   = $content['embed'] ?? null;
-        $userId  = $content['user_id'] ?? null;
-
-        if (empty($embed) || empty($userId)) {
-            return $this->json([ false, 'Invalid submit data.' ]);
+        if ($embed) {
+            $this->serAymeric->sendEmbed($userId, $embed);
+        } else {
+            $this->serAymeric->sendMessage($userId, $message);
         }
 
-        $this->serAymeric->sendEmbed($userId, $embed);
         return $this->json([ true, 'Message sent ']);
     }
 }

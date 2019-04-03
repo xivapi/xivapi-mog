@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\Directory\Channels;
 use App\Service\MogRest\MogRest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,36 +19,25 @@ class MessageController extends AbstractController
     }
 
     /**
-     * @Route("/mog/say")
+     * Send a message to a channel
+     *
+     * @Route("/mog/notify")
      */
     public function say(Request $request)
     {
         $content = json_decode($request->getContent(), true);
         $message = $content['message'] ?? null;
+        $embed   = $content['embed']   ?? null;
         $channel = $content['channel'] ?? null;
 
-        if (empty($message) || empty($channel)) {
-            return $this->json([ false, 'Invalid submit data.' ]);
+        $channel = $channel ?: Channels::ADMIN_MOG;
+
+        if ($embed) {
+            $this->mog->sendEmbed($channel, $embed);
+        } else {
+            $this->mog->sendMessage($channel, $message);
         }
 
-        $this->mog->sendMessage($channel, $message);
-        return $this->json([ true, 'Message sent ']);
-    }
-
-    /**
-     * @Route("/mog/embed")
-     */
-    public function embed(Request $request)
-    {
-        $content = json_decode($request->getContent(), true);
-        $embed   = $content['embed'] ?? null;
-        $channel = $content['channel'] ?? null;
-
-        if (empty($embed) || empty($channel)) {
-            return $this->json([ false, 'Invalid submit data.' ]);
-        }
-
-        $this->mog->sendEmbed($channel, $embed);
         return $this->json([ true, 'Message sent ']);
     }
 }
