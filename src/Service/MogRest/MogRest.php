@@ -6,7 +6,7 @@ use RestCord\DiscordClient;
 
 class MogRest
 {
-    use MogRestTrait;
+    const ROLE_FORMAT = '<@&%s> %s';
 
     public function discord(): DiscordClient
     {
@@ -16,40 +16,63 @@ class MogRest
     }
 
     /**
-     * Send a message to a room
+     * Send a message to a channel
      */
-    public function sendMessage(int $channel, $message)
+    public function sendMessage(int $channel, string $message)
     {
-        $options = array_merge($this->handleMessage($message), [
+        $options = [
             'channel.id' => (int)$channel,
-        ]);
+            'content'    => $message,
+        ];
 
         $this->discord()->channel->createMessage($options);
     }
 
     /**
-     * Send a direct message to a user
+     * Send an embed to a channel
      */
-    public function sendDirectMessage(int $user, $message)
+    public function sendEmbed(int $channel, array $embed)
     {
-        // create dm
+        $options = [
+            'channel.id' => (int)$channel,
+            'embed'      => $embed,
+        ];
+
+        $this->discord()->channel->createMessage($options);
+    }
+
+    /**
+     * Send a direct message
+     */
+    public function sendDirectMessage(int $user, string $message)
+    {
         $dm = $this->discord()->user->createDm([
             'recipient_id' => (int)$user,
         ]);
 
-        $options = array_merge($this->handleMessage($message), [
-            'channel.id' => (int)$dm->id
-        ]);
+        $options = [
+            'channel.id' => (int)$dm->id,
+            'content'    => $message,
+        ];
 
         $this->discord()->channel->createMessage($options);
     }
 
     /**
-     * Send a message to a specific role
+     * Send a direct embed
      */
-    public function sendMessageToRole(int $role, int $channel, $message)
+    public function sendDirectEmbed(int $user, array $embed)
     {
-        $this->sendMessage($channel, sprintf('<@&%s> %s', $role, $message));
+        $dm = $this->discord()->user->createDm([
+            'recipient_id' => (int)$user,
+        ]);
+
+        $options = [
+            'channel.id' => (int)$dm->id,
+            'embed'      => $embed,
+        ];
+
+        $this->discord()->channel->createMessage($options);
     }
 
     /**

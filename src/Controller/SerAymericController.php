@@ -2,10 +2,6 @@
 
 namespace App\Controller;
 
-use App\Service\MogNet\Messages\Author;
-use App\Service\MogNet\Messages\Embed;
-use App\Service\MogNet\Messages\Image;
-use App\Service\MogNet\Messages\Text;
 use App\Service\SerAymeric\SerAymeric;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,7 +33,6 @@ class SerAymericController extends AbstractController
         }
         
         $this->serAymeric->sendMessage($userId, $message);
-        
         return $this->json([ true, 'Message sent ']);
     }
 
@@ -58,7 +53,6 @@ class SerAymericController extends AbstractController
 
         // send embed json as is
         $this->serAymeric->sendEmbed($userId, $embed);
-
         return $this->json([ true, 'Message sent ']);
     }
 }
