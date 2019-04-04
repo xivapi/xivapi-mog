@@ -28,20 +28,18 @@ class SerAymeric
     /**
      * Send a direct message to a user via Ser Aymeric
      */
-    public function sendMessage(int $userId, string $message)
+    public function sendMessage(int $userId, string $content, array $embed)
     {
-        $this->send($userId, [
-            'content' => $message,
-        ]);
-    }
+        $options = [];
 
-    /**
-     * Send a direct embed to a user via Ser Aymeric
-     */
-    public function sendEmbed(int $userId, array $embed)
-    {
-        $this->send($userId, [
-            'embed' => $embed,
-        ]);
+        if ($content) {
+            $options['content'] = $content;
+        }
+
+        if ($embed) {
+            $options['embed'] = $embed;
+        }
+
+        $this->send($userId, $options);
     }
 }

@@ -18,25 +18,19 @@ class MogRest
     /**
      * Send a message to a channel
      */
-    public function sendMessage(int $channel, string $message)
+    public function sendMessage(int $channel, string $content, array $embed)
     {
         $options = [
             'channel.id' => (int)$channel,
-            'content'    => $message,
         ];
 
-        $this->discord()->channel->createMessage($options);
-    }
+        if ($content) {
+            $options['content'] = $content;
+        }
 
-    /**
-     * Send an embed to a channel
-     */
-    public function sendEmbed(int $channel, array $embed)
-    {
-        $options = [
-            'channel.id' => (int)$channel,
-            'embed'      => $embed,
-        ];
+        if ($embed) {
+            $options['embed'] = $embed;
+        }
 
         $this->discord()->channel->createMessage($options);
     }
@@ -44,7 +38,7 @@ class MogRest
     /**
      * Send a direct message
      */
-    public function sendDirectMessage(int $user, string $message)
+    public function sendDirectMessage(int $user, string $content, array $embed)
     {
         $dm = $this->discord()->user->createDm([
             'recipient_id' => (int)$user,
@@ -52,25 +46,15 @@ class MogRest
 
         $options = [
             'channel.id' => (int)$dm->id,
-            'content'    => $message,
         ];
 
-        $this->discord()->channel->createMessage($options);
-    }
+        if ($content) {
+            $options['content'] = $content;
+        }
 
-    /**
-     * Send a direct embed
-     */
-    public function sendDirectEmbed(int $user, array $embed)
-    {
-        $dm = $this->discord()->user->createDm([
-            'recipient_id' => (int)$user,
-        ]);
-
-        $options = [
-            'channel.id' => (int)$dm->id,
-            'embed'      => $embed,
-        ];
+        if ($embed) {
+            $options['embed'] = $embed;
+        }
 
         $this->discord()->channel->createMessage($options);
     }
