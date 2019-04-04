@@ -27,12 +27,13 @@ class RestController extends AbstractController
      *
      * @Route("/mog/notify")
      */
-    public function say(Request $request)
+    public function mog(Request $request)
     {
-        $content = json_decode($request->getContent(), true);
-        $channel = $content['channel'] ?? null;
-        $content = $content['content'] ?? null;
-        $embed   = $content['embed']   ?? null;
+        $json = json_decode($request->getContent());
+
+        $channel = $json->channel ?? null;
+        $content = $json->content ?? null;
+        $embed   = $json->embed   ?? null;
 
         $channel = $channel ?: Channels::ADMIN_MOG;
 
@@ -46,12 +47,13 @@ class RestController extends AbstractController
      *
      * @Route("/aymeric/notify")
      */
-    public function message(Request $request)
+    public function aymeric(Request $request)
     {
-        $content = json_decode($request->getContent(), true);
-        $userId  = $content['user_id'] ?? null;
-        $content = $content['content'] ?? null;
-        $embed   = $content['embed']   ?? null;
+        $json = json_decode($request->getContent());
+
+        $userId  = $json->user_id ?? null;
+        $content = $json->content ?? null;
+        $embed   = $json->embed   ?? null;
 
         $this->serAymeric->sendMessage($userId, $content, $embed);
 

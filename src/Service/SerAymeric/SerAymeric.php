@@ -28,7 +28,7 @@ class SerAymeric
     /**
      * Send a direct message to a user via Ser Aymeric
      */
-    public function sendMessage(int $userId, string $content, array $embed)
+    public function sendMessage(int $userId, string $content = null, $embed = null)
     {
         $options = [];
 

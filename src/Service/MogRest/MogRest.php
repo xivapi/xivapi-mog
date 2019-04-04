@@ -8,7 +8,7 @@ class MogRest
 {
     const ROLE_FORMAT = '<@&%s> %s';
 
-    public function discord(): DiscordClient
+    private function discord(): DiscordClient
     {
         return new DiscordClient([
             'token' => getenv('BOT_TOKEN')
@@ -18,7 +18,7 @@ class MogRest
     /**
      * Send a message to a channel
      */
-    public function sendMessage(int $channel, string $content, array $embed)
+    public function sendMessage(int $channel, string $content = null, $embed = null)
     {
         $options = [
             'channel.id' => (int)$channel,
@@ -38,7 +38,7 @@ class MogRest
     /**
      * Send a direct message
      */
-    public function sendDirectMessage(int $user, string $content, array $embed)
+    public function sendDirectMessage(int $user, string $content = null, $embed = null)
     {
         $dm = $this->discord()->user->createDm([
             'recipient_id' => (int)$user,
