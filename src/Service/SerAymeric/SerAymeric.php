@@ -37,7 +37,7 @@ class SerAymeric
         }
 
         if ($embed) {
-            $options['embed'] = $embed;
+            $options['embed'] = json_decode(json_encode($embed), true);
         }
 
         $this->send($userId, $options);
