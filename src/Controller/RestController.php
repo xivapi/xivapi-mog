@@ -27,7 +27,7 @@ class RestController extends AbstractController
      *
      * @Route("/mog/notify")
      */
-    public function mog(Request $request)
+    public function notifyViaMog(Request $request)
     {
         $json = json_decode($request->getContent());
 
@@ -47,7 +47,7 @@ class RestController extends AbstractController
      *
      * @Route("/aymeric/notify")
      */
-    public function aymeric(Request $request)
+    public function notifyViaAymeric(Request $request)
     {
         $json = json_decode($request->getContent());
 
@@ -58,5 +58,27 @@ class RestController extends AbstractController
         $this->serAymeric->sendMessage($userId, $content, $embed);
 
         return $this->json([ true, 'Message sent ']);
+    }
+
+    /**
+     * @Route("/users/patreon-tier")
+     */
+    public function userPatreonTier(Request $request)
+    {
+        $userId = $request->get('user_id') ?: null;
+
+        if ($userId) {
+            throw new \Exception("No user id provided. Provide one, dip shit.");
+        }
+
+        $userRoles = $this->mog->getRolesForUser((int)$userId);
+
+        foreach (Channels::ROLE_PATREON_TIERS as $role => $tier) {
+            if (in_array($role, $userRoles)) {
+                return $this->json($tier);
+            }
+        }
+
+        return $this->json(false);
     }
 }

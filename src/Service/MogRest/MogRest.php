@@ -2,6 +2,7 @@
 
 namespace App\Service\MogRest;
 
+use App\Service\Directory\Channels;
 use RestCord\DiscordClient;
 
 class MogRest
@@ -71,5 +72,25 @@ class MogRest
             'mentionable' => true,
             'hoist'       => true,
         ]);
+    }
+
+    public function getGuildRoles()
+    {
+        return $this->discord()->guild->getGuildRoles([
+            'guild.id' => Channels::GUILD_ID,
+        ]);
+    }
+
+    /**
+     * Get all users in the channel
+     */
+    public function getRolesForUser(int $userId)
+    {
+        $member = $this->discord()->guild->getGuildMember([
+            'guild.id' => Channels::GUILD_ID,
+            'user.id' => $userId
+        ]);
+
+        return $member->roles;
     }
 }
