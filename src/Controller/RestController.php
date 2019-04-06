@@ -67,7 +67,7 @@ class RestController extends AbstractController
     {
         $userId = $request->get('user_id') ?: null;
 
-        if ($userId) {
+        if ($userId === null) {
             throw new \Exception("No user id provided. Provide one, dip shit.");
         }
 
