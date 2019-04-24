@@ -37,6 +37,8 @@ class ExceptionListener implements EventSubscriberInterface
             $event->setResponse(new Response("File not found: ". $path, 404));
             return null;
         }
+        
+        return;
     
         $this->mog->sendMessage(
             '569968196455759907',
