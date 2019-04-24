@@ -7,6 +7,8 @@ use GuzzleHttp\RequestOptions;
 
 class SerAymeric
 {
+    public static $payload;
+    
     /**
      * Send a direct message to a user via Ser Aymeric
      */
@@ -39,6 +41,8 @@ class SerAymeric
         if ($embed) {
             $options['embed'] = json_decode(json_encode($embed), true);
         }
+    
+        SerAymeric::$payload = $options;
 
         $this->send($userId, $options);
     }
