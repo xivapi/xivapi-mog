@@ -38,8 +38,12 @@ class ExceptionListener implements EventSubscriberInterface
             return null;
         }
         
-        return;
-    
+        $code = method_exists($ex, 'getStatusCode') ? $ex->getStatusCode() : 500;
+        
+        if ($code == 404) {
+            return;
+        }
+        
         $this->mog->sendMessage(
             '569968196455759907',
             "```Discord Bot Exception: {$ex->getMessage()}```
