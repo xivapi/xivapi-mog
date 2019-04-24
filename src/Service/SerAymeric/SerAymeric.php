@@ -2,12 +2,19 @@
 
 namespace App\Service\SerAymeric;
 
+use App\Service\MogRest\MogRest;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 
 class SerAymeric
 {
-    public static $payload = [];
+    /** @var MogRest */
+    private $mog;
+    
+    public function __construct(MogRest $mog)
+    {
+        $this->mog = $mog;
+    }
     
     /**
      * Send a direct message to a user via Ser Aymeric
@@ -18,13 +25,20 @@ class SerAymeric
             'base_uri' => getenv('SA_BASE_URI'),
             'verify'   => false,
         ]);
-
-        $client->post(getenv('SA_ENDPOINT') . $userId, [
-            RequestOptions::HEADERS  => [
-                'Authorization' => getenv('SA_AUTH'),
-            ],
-            RequestOptions::JSON => $json
-        ]);
+        
+        try {
+            $client->post(getenv('SA_ENDPOINT') . $userId, [
+                RequestOptions::HEADERS  => [
+                    'Authorization' => getenv('SA_AUTH'),
+                ],
+                RequestOptions::JSON => $json
+            ]);
+        } catch (\Exception $ex) {
+            $this->mog->sendMessage(
+                '569968196455759907',
+                "```Discord Bot Exception: {$ex->getMessage()}``` ```". json_encode($json, JSON_PRETTY_PRINT) ."```"
+            );
+        }
     }
 
     /**
@@ -42,8 +56,6 @@ class SerAymeric
             $options['embed'] = json_decode(json_encode($embed), true);
         }
     
-        SerAymeric::$payload = $options;
-
         $this->send($userId, $options);
     }
 }

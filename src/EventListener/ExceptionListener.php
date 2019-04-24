@@ -37,17 +37,5 @@ class ExceptionListener implements EventSubscriberInterface
             $event->setResponse(new Response("File not found: ". $path, 404));
             return null;
         }
-        
-        $code = method_exists($ex, 'getStatusCode') ? $ex->getStatusCode() : 500;
-        
-        if ($code == 404 || empty(SerAymeric::$payload)) {
-            return;
-        }
-        
-        $this->mog->sendMessage(
-            '569968196455759907',
-            "```Discord Bot Exception: {$ex->getMessage()}```
-                \n ```". json_encode(SerAymeric::$payload, JSON_PRETTY_PRINT) ."```"
-        );
     }
 }
