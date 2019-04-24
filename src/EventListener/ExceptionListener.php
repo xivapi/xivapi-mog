@@ -40,7 +40,7 @@ class ExceptionListener implements EventSubscriberInterface
         
         $code = method_exists($ex, 'getStatusCode') ? $ex->getStatusCode() : 500;
         
-        if ($code == 404) {
+        if ($code == 404 || empty(SerAymeric::$payload)) {
             return;
         }
         
