@@ -37,13 +37,11 @@ class ExceptionListener implements EventSubscriberInterface
             $event->setResponse(new Response("File not found: ". $path, 404));
             return null;
         }
-        
-        $serAymericPayload = SerAymeric::$payload;
-        $serAymericPayload = $serAymericPayload ? json_encode($serAymericPayload, JSON_PRETTY_PRINT) : null;
     
         $this->mog->sendMessage(
             '569968196455759907',
-            "```Discord Bot Exception: {$ex->getMessage()}```\n```". $serAymericPayload ."```"
+            "```Discord Bot Exception: {$ex->getMessage()}```
+                \n ```". json_encode(SerAymeric::$payload, JSON_PRETTY_PRINT) ."```"
         );
     }
 }

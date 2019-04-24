@@ -7,7 +7,7 @@ use GuzzleHttp\RequestOptions;
 
 class SerAymeric
 {
-    public static $payload;
+    public static $payload = [];
     
     /**
      * Send a direct message to a user via Ser Aymeric
