@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Service\Directory\Channels;
 use App\Service\MogRest\MogRest;
+use App\Service\Response\Response;
 use App\Service\SerAymeric\SerAymeric;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,9 +38,9 @@ class RestController extends AbstractController
 
         $channel = $channel ?: Channels::ADMIN_MOG;
 
-        $this->mog->sendMessage($channel, $content, $embed);
-
-        return $this->json([ true, 'Message sent ']);
+        return $this->json(
+            $this->mog->sendMessage($channel, $content, $embed)
+        );
     }
 
     /**
@@ -55,9 +56,9 @@ class RestController extends AbstractController
         $content = $json->content ?? null;
         $embed   = $json->embed   ?? null;
 
-        $this->serAymeric->sendMessage($userId, $content, $embed);
-
-        return $this->json([ true, 'Message sent ']);
+        return $this->json(
+            $this->serAymeric->sendMessage($userId, $content, $embed)
+        );
     }
 
     /**
@@ -71,14 +72,24 @@ class RestController extends AbstractController
             throw new \Exception("No user id provided. Provide one, dip shit.");
         }
 
-        $userRoles = $this->mog->getRolesForUser((int)$userId);
+        try {
+            $userRoles = $this->mog->getRolesForUser((int)$userId);
+        } catch (\Exception $ex) {
+            return $this->json(
+                new Response($ex->getCode(), 'Could not get role for user')
+            );
+        }
 
         foreach (Channels::ROLE_PATREON_TIERS as $role => $tier) {
             if (in_array($role, $userRoles)) {
-                return $this->json($tier);
+                return $this->json(
+                    new Response(200, 'Role found', $tier)
+                );
             }
         }
 
-        return $this->json(false);
+        return $this->json(
+            new Response(200, 'User does not have role', 0)
+        );
     }
 }

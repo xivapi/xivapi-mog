@@ -3,6 +3,7 @@
 namespace App\Service\MogRest;
 
 use App\Service\Directory\Channels;
+use App\Service\Response\Response;
 use RestCord\DiscordClient;
 
 class MogRest
@@ -19,7 +20,7 @@ class MogRest
     /**
      * Send a message to a channel
      */
-    public function sendMessage(int $channel, string $content = null, $embed = null)
+    public function sendMessage(int $channel, string $content = null, $embed = null): Response
     {
         $options = [
             'channel.id' => (int)$channel,
@@ -33,13 +34,18 @@ class MogRest
             $options['embed'] = json_decode(json_encode($embed), true);
         }
 
-        $this->discord()->channel->createMessage($options);
+        try {
+            $this->discord()->channel->createMessage($options);
+            return new Response(200, 'Message Sent.');
+        } catch (\Exception $ex) {
+            return new Response($ex->getCode(), 'Could not send message.');
+        }
     }
 
     /**
      * Send a direct message
      */
-    public function sendDirectMessage(int $user, string $content = null, $embed = null)
+    public function sendDirectMessage(int $user, string $content = null, $embed = null): Response
     {
         $dm = $this->discord()->user->createDm([
             'recipient_id' => (int)$user,
@@ -56,8 +62,13 @@ class MogRest
         if ($embed) {
             $options['embed'] = json_decode(json_encode($embed), true);
         }
-
-        $this->discord()->channel->createMessage($options);
+    
+        try {
+            $this->discord()->channel->createMessage($options);
+            return new Response(200, 'Message Sent.');
+        } catch (\Exception $ex) {
+            return new Response($ex->getCode(), 'Could not send message.');
+        }
     }
 
     /**
@@ -73,7 +84,10 @@ class MogRest
             'hoist'       => true,
         ]);
     }
-
+    
+    /**
+     * @return \RestCord\Model\Permissions\Role[]
+     */
     public function getGuildRoles()
     {
         return $this->discord()->guild->getGuildRoles([

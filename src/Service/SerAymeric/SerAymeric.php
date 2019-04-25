@@ -3,6 +3,7 @@
 namespace App\Service\SerAymeric;
 
 use App\Service\MogRest\MogRest;
+use App\Service\Response\Response;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 
@@ -19,7 +20,7 @@ class SerAymeric
     /**
      * Send a direct message to a user via Ser Aymeric
      */
-    private function send(int $userId, array $json = null)
+    private function send(int $userId, array $json = null): Response
     {
         $client = new Client([
             'base_uri' => getenv('SA_BASE_URI'),
@@ -33,18 +34,24 @@ class SerAymeric
                 ],
                 RequestOptions::JSON => $json
             ]);
+    
+            return new Response(200, 'Message Sent.');
         } catch (\Exception $ex) {
-            $this->mog->sendMessage(
-                '569968196455759907',
-                "```Discord Bot Exception: {$ex->getMessage()}``` ```". json_encode($json, JSON_PRETTY_PRINT) ."```"
-            );
+            if (!in_array($ex->getCode(), [404,403])) {
+                $this->mog->sendMessage(
+                    '569968196455759907',
+                    "```Discord Bot Exception: {$ex->getMessage()}``` ```". json_encode($json, JSON_PRETTY_PRINT) ."```"
+                );
+            }
+    
+            return new Response($ex->getCode(), 'Could not send message.');
         }
     }
 
     /**
      * Send a direct message to a user via Ser Aymeric
      */
-    public function sendMessage(int $userId, string $content = null, $embed = null)
+    public function sendMessage(int $userId, string $content = null, $embed = null): Response
     {
         $options = [];
 
@@ -56,6 +63,6 @@ class SerAymeric
             $options['embed'] = json_decode(json_encode($embed), true);
         }
     
-        $this->send($userId, $options);
+        return $this->send($userId, $options);
     }
 }
