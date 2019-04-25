@@ -37,13 +37,6 @@ class SerAymeric
     
             return new Response(200, 'Message Sent.');
         } catch (\Exception $ex) {
-            if (!in_array($ex->getCode(), [404,403])) {
-                $this->mog->sendMessage(
-                    '569968196455759907',
-                    "```Discord Bot Exception: {$ex->getMessage()}``` ```". json_encode($json, JSON_PRETTY_PRINT) ."```"
-                );
-            }
-    
             return new Response($ex->getCode(), 'Could not send message.');
         }
     }
