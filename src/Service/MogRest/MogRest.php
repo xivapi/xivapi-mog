@@ -38,7 +38,7 @@ class MogRest
             $this->discord()->channel->createMessage($options);
             return new Response(200, 'Message Sent.');
         } catch (\Exception $ex) {
-            return new Response($ex->getCode(), 'Could not send message.');
+            return new Response($ex->getCode(), 'Could not send message: '. $ex->getMessage());
         }
     }
 
@@ -67,7 +67,7 @@ class MogRest
             $this->discord()->channel->createMessage($options);
             return new Response(200, 'Message Sent.');
         } catch (\Exception $ex) {
-            return new Response($ex->getCode(), 'Could not send message.');
+            return new Response($ex->getCode(), 'Could not send message: '. $ex->getMessage());
         }
     }
 
