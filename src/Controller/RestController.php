@@ -44,20 +44,20 @@ class RestController extends AbstractController
     }
 
     /**
-     * Send a message to a specific user
+     * Send a message to a channel
      *
-     * @Route("/aymeric/notify")
+     * @Route("/mog/dm")
      */
-    public function notifyViaAymeric(Request $request)
+    public function dmViaMog(Request $request)
     {
         $json = json_decode($request->getContent());
 
-        $userId  = $json->user_id ?? null;
+        $user    = $json->user_id ?? null;
         $content = $json->content ?? null;
         $embed   = $json->embed   ?? null;
 
         return $this->json(
-            $this->serAymeric->sendMessage($userId, $content, $embed)
+            $this->mog->sendDirectMessage($user, $content, $embed)
         );
     }
 
@@ -66,6 +66,7 @@ class RestController extends AbstractController
      */
     public function userPatreonTier(Request $request)
     {
+        /*
         $userId = $request->get('user_id') ?: null;
 
         if ($userId === null) {
@@ -91,5 +92,6 @@ class RestController extends AbstractController
         return $this->json(
             new Response(200, 'User does not have role', 0)
         );
+        */
     }
 }
