@@ -4,8 +4,6 @@ namespace App\Controller;
 
 use App\Service\Directory\Channels;
 use App\Service\MogRest\MogRest;
-use App\Service\Response\Response;
-use App\Service\SerAymeric\SerAymeric;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,13 +12,10 @@ class RestController extends AbstractController
 {
     /** @var MogRest */
     private $mog;
-    /** @var SerAymeric */
-    private $serAymeric;
     
-    public function __construct(MogRest $mog, SerAymeric $serAymeric)
+    public function __construct(MogRest $mog)
     {
         $this->mog = $mog;
-        $this->serAymeric = $serAymeric;
     }
 
     /**

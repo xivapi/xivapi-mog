@@ -3,9 +3,7 @@
 namespace App\EventListener;
 
 use App\Service\MogRest\MogRest;
-use App\Service\SerAymeric\SerAymeric;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
